@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">ToDoo</string>
+    <string name="action_settings">Settings</string>
+    <string name="AddTodo" />
+    <string name="btAdd">Add</string>
+    <string name="txAddHint">Todo Text Here</string>
+    <string name="mainLabel">Simple ToDoo</string>
+    <string name="title_activity_edit_item">EditItemActivity</string>
+    <string name="tlEdit">Edit Item</string>
+    <string name="btEdit">Save</string>
+    <string name="btCancel">Cancel</string>
+</resources>

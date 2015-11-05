@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/asmurthy/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.4/b1b6ea3b7e4aa4f492509a4952029cd8e48019ad/commons-io-2.4.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="b1b6ea3b7e4aa4f492509a4952029cd8e48019ad">
+        <dex dex="/Users/asmurthy/AndroidStudioProjects/ToDoo/app/build/intermediates/pre-dexed/debug/commons-io-2.4-1d4beb9e3ef1cdba928bbe3dc230e52b6c7a33fa.jar" />
+    </item>
+
+</items>
