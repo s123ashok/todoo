@@ -7,8 +7,10 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.apache.commons.io.FileUtils;
@@ -22,6 +24,8 @@ public class EditItemActivity extends AppCompatActivity {
     private EditText txEdit ;
     private String initStr = null;
     private int pos;
+    private Spinner spinner1;
+    private String priority = "Low";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,15 +36,25 @@ public class EditItemActivity extends AppCompatActivity {
         txEdit = (EditText) findViewById(R.id.txEdit);
         txEdit.setText(initStr);
         txEdit.setSelection(initStr.length());
+        spinner1 = (Spinner) findViewById(R.id.spinner1);
+        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                priority = parent.getItemAtPosition(pos).toString();
+            //    Toast.makeText(parent.getContext(), priority, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
+
 
     public void onSave(View view) {
         String editStr = txEdit.getText().toString();
-        if (initStr.equals(editStr))
-        {
-            Toast.makeText(this,"Item not edited, Cancel to dismiss", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (editStr.equals("")){
+         if (editStr.equals("")){
             Toast.makeText(this,"Item empty, Cancel and delete in main screen", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -50,6 +64,7 @@ public class EditItemActivity extends AppCompatActivity {
             i.putExtra("code",100); // Code for valid edit/update
             i.putExtra("pos",pos);
             i.putExtra("value",editStr);
+            i.putExtra("priority",priority);
             setResult(RESULT_OK, i);
             finish();
         }

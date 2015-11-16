@@ -34,7 +34,9 @@
         android:id="@+id/tvLabel"
         android:layout_alignParentTop="true"
         android:textAlignment="center"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        style="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"
+        android:background="@color/accent_material_light" />
 
     <ListView
         android:layout_width="wrap_content"

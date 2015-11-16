@@ -9,4 +9,10 @@
     <string name="tlEdit">Edit Item</string>
     <string name="btEdit">Save</string>
     <string name="btCancel">Cancel</string>
+    <string name="prio_prompt">Choose the priority</string>
+    <string-array name="prio_value">
+        <item>Low</item>
+        <item>Medium</item>
+        <item>High</item>
+    </string-array>
 </resources>

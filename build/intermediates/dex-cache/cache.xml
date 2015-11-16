@@ -2,6 +2,13 @@
 <items version="2" >
 
     <item
+        jar="/Users/asmurthy/.gradle/caches/modules-2/files-2.1/com.michaelpardo/activeandroid/3.1.0-SNAPSHOT/4ab7b0182975bc57c49efc5e0b3baa4a10e4ec08/activeandroid-3.1.0-SNAPSHOT.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="4ab7b0182975bc57c49efc5e0b3baa4a10e4ec08">
+        <dex dex="/Users/asmurthy/AndroidStudioProjects/ToDoo/app/build/intermediates/pre-dexed/debug/activeandroid-3.1.0-SNAPSHOT-24d5aa5e00bdfefe97662e668cfed3dbe5f46eee.jar" />
+    </item>
+    <item
         jar="/Users/asmurthy/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.4/b1b6ea3b7e4aa4f492509a4952029cd8e48019ad/commons-io-2.4.jar"
         jumboMode="false"
         revision="23.0.2"

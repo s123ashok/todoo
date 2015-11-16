@@ -11,45 +11,46 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import org.apache.commons.io.FileUtils;
+import com.activeandroid.query.Delete;
+import com.activeandroid.query.Select;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ToDooActivity extends AppCompatActivity {
 
     private static final int EDIT_REQUEST = 10 ;
     private EditText txAdd;
     private ListView lvAdd;
-    private ArrayAdapter<String> itemsAdapter;
-    private ArrayList<String> items;
-    private File file;
+    private ArrayAdapter<Item> itemsAdapter;
+    private ArrayList<Item> items = new ArrayList<Item>();;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_to_doo);
-        File fileDir = getFilesDir();
-        file = new File(fileDir,"ToDoo.txt");
-
         txAdd = (EditText) findViewById(R.id.txAdd);
         lvAdd = (ListView) findViewById(R.id.lvTodo);
-        items = new ArrayList<String>();
-        readItems();
-        itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
+
+        itemsAdapter = new MyCustomArrayAdapter(this, items);
+        refreshItems();
+
         lvAdd.setAdapter(itemsAdapter);
 
         setupListViewListeners();
     }
 
+
+
     private void setupListViewListeners() {
         lvAdd.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                new Delete().from(Item.class).where("remote_id = ?", items.get(position).remoteId).execute();
+
                 items.remove(position);
                 itemsAdapter.notifyDataSetChanged();
-                writeItems();
                 return true;
             }
         });
@@ -59,28 +60,35 @@ public class ToDooActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(ToDooActivity.this, EditItemActivity.class);
                 i.putExtra("position", Integer.toString(position));
-                i.putExtra("value",items.get(position));
+                i.putExtra("value", items.get(position).name);
                 startActivityForResult(i, EDIT_REQUEST);
             }
         });
     }
 
-    private void writeItems() {
-        try {
-            FileUtils.writeLines(file, items);
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void refreshItems() {
+        // Query ActiveAndroid for list of data
+        List<Item> queryResults = new Select().from(Item.class)
+                .orderBy("Priority ASC").limit(100).execute();
+
+        itemsAdapter.clear();
+        // Load the result into the adapter using `addAll`
+        if (null == queryResults || queryResults.isEmpty()){
+            return;
         }
-
-    }
-
-    private void readItems() {
-        try{
-            items = new ArrayList<String>(FileUtils.readLines(file));
-        } catch (IOException e) {
-            items = new ArrayList<>();
+        else{
+            itemsAdapter.addAll(queryResults);
         }
     }
+
+    public void onAddItem(View view) {
+        String itemName = txAdd.getText().toString();
+        itemsAdapter.add(new Item(itemName));
+        txAdd.setText("");
+        //writeItems();
+    }
+
+
 
     @Override
     protected  void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -88,10 +96,13 @@ public class ToDooActivity extends AppCompatActivity {
         {
             if (data.getExtras().getInt("code")==100){ // Value edited
                 int pos = data.getExtras().getInt("pos");
-                items.remove(pos);
-                items.add(pos,data.getExtras().getString("value"));
+                String priority = data.getExtras().getString("priority");
+                Item itemOld = items.get(pos);
+                Item itemNew = new Item(itemOld.remoteId, data.getExtras().getString("value"),priority);
+
+                refreshItems();
                 itemsAdapter.notifyDataSetChanged();
-                writeItems();
+     //           writeItems();
             }
         }
     }
@@ -117,10 +128,8 @@ public class ToDooActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onAddItem(View view) {
-        itemsAdapter.add(txAdd.getText().toString());
-        txAdd.setText("");
-        writeItems();
-    }
 
 }
+
+
+
